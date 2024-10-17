@@ -1,0 +1,32 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+.liI{
+    border: 1px solid black;
+    border-radius: 8px;
+    display: flex;
+    padding: 8px 0px;
+    position: relative;
+    align-items: baseline;
+    padding: 10px 8px;
+    gap: 8px;
+    flex-direction: column;
+    width: 300px;
+    margin-top: 16px;
+}
+
+.container{
+}
+
+button{
+   position: absolute;
+    right: 10px;
+   border: 1px, solid, black;
+    border-radius: 4px;
+    padding: 8px 12px;
+  top: 50%;
+  transform: translate(0, -50%);
+    
+}

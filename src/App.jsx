@@ -1,35 +1,78 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import ContactList from "./components/ContactList/ContactList.jsx";
+import SearchBox from "./components/SearchBox/SearchBox.jsx";
+import ContactForm from "./components/ContactForm/ContactForm.jsx";
+import { nanoid } from "nanoid";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [contactList, setContactList] = useState(() => {
+    const savedData = window.localStorage.getItem("contactList");
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData);
+        if (Array.isArray(parsedData)) {
+          return parsedData;
+        }
+      } catch (error) {
+        console.error("Failed to parse localStorage data:", error);
+      }
+    }
+    // Default data if no valid data is found in localStorage
+    return [
+      { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
+      { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
+      { id: "id-3", name: "Eden Clements", number: "645-17-79" },
+      { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
+    ];
+  });
 
+  useEffect(() => {
+    window.localStorage.setItem("contactList", JSON.stringify(contactList));
+  }, [contactList]);
+
+  const [inputValue, setInputValue] = useState("");
+
+  const filtredContacts = contactList.filter((contact) =>
+    contact.name.toLowerCase().includes(inputValue.toLowerCase())
+  );
+
+  const handleChange = (e) => {
+    setInputValue(e.target.value);
+    console.log(inputValue);
+  };
+
+  const deleteContact = (id) => {
+    setContactList(contactList.filter((contact) => contact.id !== id));
+  };
+
+  const addContact = ({ number, name, id }) => {
+    const newContact = {
+      id: id,
+      name: name,
+      number: number,
+    };
+    setContactList([...contactList, newContact]);
+  };
+
+  console.log(contactList);
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <h1>Phonebook</h1>
+        <ContactForm addContact={addContact} />
+        <SearchBox />
+        {filtredContacts.length > 0 && (
+          <ContactList
+            contacts={filtredContacts}
+            deleteContact={deleteContact}
+          />
+        )}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
