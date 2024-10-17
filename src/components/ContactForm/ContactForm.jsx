@@ -26,14 +26,7 @@ const ContactForm = () => {
   });
 
   const handleSubmit = (valuess, options) => {
-    const newContact = {
-      id: nanoid(),
-      name: valuess.name,
-      number: valuess.number,
-    };
-    dispatch(addContacts(newContact));
-    // addContact({ ...valuess, id: nanoid() });
-
+    dispatch(addContact(valuess));
     options.resetForm();
   };
 
@@ -42,9 +35,7 @@ const ContactForm = () => {
     <div className={s.container}>
       <Formik
         validationSchema={validationSchema}
-        onSubmit={
-          (handleSubmit, (initialValues) => dispatch(addContact(initialValues)))
-        }
+        onSubmit={handleSubmit}
         initialValues={initialValues}
       >
         {({ errors, touched }) => (

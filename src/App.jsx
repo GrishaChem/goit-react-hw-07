@@ -7,8 +7,12 @@ import SearchBox from "./components/SearchBox/SearchBox.jsx";
 import ContactForm from "./components/ContactForm/ContactForm.jsx";
 import { nanoid } from "nanoid";
 import { fetchContact } from "./redux/contactsOps.js";
+import { useSelector } from "react-redux";
+import { selectIsLoading } from "./redux/contactsSlice.js";
 
 const App = () => {
+  const isLoading = useSelector(selectIsLoading);
+
   // const dispatch = useDispatch();
 
   // useEffect(() => {
@@ -71,6 +75,7 @@ const App = () => {
         <h1>Phonebook</h1>
         <ContactForm addContact={addContact} />
         <SearchBox />
+        {isLoading && <h2>Loading...</h2>}
         {filtredContacts.length > 0 && (
           <ContactList
             contacts={filtredContacts}
