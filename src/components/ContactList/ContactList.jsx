@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Contact from "../Contact/Contact.jsx";
 import s from "../ContactList/ContactList.module.css";
 import { useSelector } from "react-redux";
 import { deleteContact, selectContacts } from "../../redux/contactsSlice.js";
 import { useDispatch } from "react-redux";
 import { selectNameFilter } from "../../redux/filtersSlice";
+import { fetchContact } from "../../redux/contactsOps.js";
 
 const ContactList = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,11 @@ const ContactList = () => {
   const filteredData = contacts.filter((contact) =>
     contact.name.toLowerCase().trim().includes(filterStr.toLowerCase().trim())
   );
+
+  useEffect(() => {
+    dispatch(fetchContact());
+  }, [dispatch]);
+
   return (
     <ul className={s.container}>
       {filteredData.map((contact) => (

@@ -6,8 +6,15 @@ import ContactList from "./components/ContactList/ContactList.jsx";
 import SearchBox from "./components/SearchBox/SearchBox.jsx";
 import ContactForm from "./components/ContactForm/ContactForm.jsx";
 import { nanoid } from "nanoid";
+import { fetchContact } from "./redux/contactsOps.js";
 
 const App = () => {
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(fetchContact());
+  // }, [dispatch]);
+
   const [contactList, setContactList] = useState(() => {
     const savedData = window.localStorage.getItem("contactList");
     if (savedData) {

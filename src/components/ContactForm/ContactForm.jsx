@@ -9,7 +9,7 @@ import { addContacts } from "../../redux/contactsSlice";
 const ContactForm = () => {
   const dispatch = useDispatch();
 
-  const asd = {
+  const initialValues = {
     name: "",
     number: "",
   };
@@ -43,7 +43,7 @@ const ContactForm = () => {
       <Formik
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
-        initialValues={asd}
+        initialValues={initialValues}
       >
         {({ errors, touched }) => (
           <Form className={s.form}>
